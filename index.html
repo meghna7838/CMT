@@ -11,6 +11,7 @@
     ></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <title>React App</title>
+    <link rel="stylesheet" src="style.css"></script>
   </head>
 
   <body>
@@ -21,7 +22,13 @@
       const capacity = 25;
       let seatsLeft = 25;
 
-      // Create form submit handler here
+      const guestRef = React.creayRef();
+      const guestNameRef =React.creayRef();
+      const phoneRef= React.creayRef();
+
+      function handleOnSubmit(){
+
+      }
 
       const App = () => (
         <div className="App" style={{ textAlign: "center" }}>
@@ -30,7 +37,14 @@
             <h2>Seats Left: {seatsLeft}</h2>
           </div>
 
-          {/* Create a form here for the input count, name and phone number with a submit button*/}
+          <div>
+          <form onSubmit={handleOnSubmit}>
+            <input placeholder="Guest Count"/>
+            <input placeholder="Primary Guest Name"/>
+            <input placeholder="Phone Number" type="number"/>
+            <button>Submit</button>
+          </form>
+          </div>
 
           <table border="1px" style={{ margin: "auto" }}>
             <thead>
