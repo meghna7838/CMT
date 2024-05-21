@@ -11,7 +11,7 @@
     ></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <title>React App</title>
-    <link rel="stylesheet" src="style.css"></script>
+    <link rel="stylesheet" src="style.css"/>
   </head>
 
   <body>
@@ -22,12 +22,34 @@
       const capacity = 25;
       let seatsLeft = 25;
 
-      const guestRef = React.creayRef();
-      const guestNameRef =React.creayRef();
-      const phoneRef= React.creayRef();
+      const guestRef = React.createRef();
+      const guestNameRef =React.createRef();
+      const phoneRef= React.createRef();
 
       function handleOnSubmit(){
+        event.preventDefault();
+        var d=new Date().toLocaleTimeString(); 
+        let guestCount = guestRef.current.value;
+        let guestName = guestNameRef.current.value;
+        let phone = phoneRef.current.value;        
+        if(seatsLeft>guestCount)
+        {
+        seatsLeft = seatsLeft-guestCount
+        customers.unshift({guestCount,guestName,phone,d});
+        }
+        else{
+            alert(`Guest count exceeds capacity`);
+        }
+        guestRef.current.value="";
+        guestNameRef.current.value="";
+        phoneRef.current.value="";
+        rootElement.render(<App />);
 
+      }
+
+      function handleDelete(i){
+       customers.splice(i,1);
+       rootElement.render(<App />);
       }
 
       const App = () => (
@@ -39,9 +61,9 @@
 
           <div>
           <form onSubmit={handleOnSubmit}>
-            <input placeholder="Guest Count"/>
-            <input placeholder="Primary Guest Name"/>
-            <input placeholder="Phone Number" type="number"/>
+            <input placeholder="Guest Count" ref={guestRef} type="number"/>
+            <input placeholder="Primary Guest Name" ref={guestNameRef}/>
+            <input placeholder="Phone Number" type="number" ref={phoneRef}/>
             <button>Submit</button>
           </form>
           </div>
@@ -57,7 +79,15 @@
               </tr>
             </thead>
             <tbody>
-              {/* Complete table to show records of customers */}
+              {customers.map((customer,index)=>(
+                <tr key={index}>
+                    <td>{customer.guestCount}</td>
+                    <td>{customer.guestName}</td>
+                    <td>{customer.phone}</td>
+                    <td>{customer.d}</td>
+                    <td onClick={()=>handleDelete(index)}>Delete</td>
+                </tr>
+              ))}
             </tbody>
             </table>
         </div>
